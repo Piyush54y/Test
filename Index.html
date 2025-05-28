@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Live News Feed</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body { font-family: Arial, sans-serif; background: #f4f4f4; margin: 0; padding: 0; }
+    header { background: #222; color: white; padding: 1rem; text-align: center; }
+    main { padding: 1rem; }
+    .news-article { background: white; padding: 1rem; margin-bottom: 1rem; border-radius: 5px; }
+    .news-article h2 { margin-top: 0; font-size: 1.2rem; }
+    .news-article a { text-decoration: none; color: #007BFF; }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>Live News Headlines</h1>
+  </header>
+
+  <main id="news-container">
+    <p>Loading news...</p>
+  </main>
+
+  <!-- ✅ Monetag Ad Script -->
+  <script src="https://fpyf8.com/88/tag.min.js" data-zone="149634" async data-cfasync="false"></script>
+
+  <!-- 📰 NewsAPI Script -->
+  <script>
+    const apiKey = '50154a25596b479fac0cba4d90502338';
+    const url = `https://newsapi.org/v2/top-headlines?country=us&apiKey=${apiKey}`;
+    const container = document.getElementById('news-container');
+
+    fetch(url)
+      .then(response => response.json())
+      .then(data => {
+        container.innerHTML = '';
+        data.articles.slice(0, 10).forEach(article => {
+          const el = document.createElement('div');
+          el.className = 'news-article';
+          el.innerHTML = `
+            <h2>${article.title}</h2>
+            <p>${article.description || ''}</p>
+            <a href="${article.url}" target="_blank">Read more</a>
+          `;
+          container.appendChild(el);
+        });
+      })
+      .catch(err => {
+        container.innerHTML = '<p>Failed to load news.</p>';
+        console.error(err);
+      });
+  </script>
+
+</body>
+</html>
